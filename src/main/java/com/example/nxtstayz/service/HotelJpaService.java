@@ -77,6 +77,10 @@ public class HotelJpaService implements HotelRepository {
     @Override
     public void deleteHotel(int hotelId) {
         try {
+            Hotel hotel = hotelJpaRepository.findById(hotelId).get();
+            List<Integer> ids = new ArrayList<>();
+            for(Room r : hotel.getRooms()) ids.add(r.getRoomId());
+            roomJpaRepository.deleteAllById(ids);
             hotelJpaRepository.deleteById(hotelId);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
