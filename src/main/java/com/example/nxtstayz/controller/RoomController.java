@@ -16,7 +16,6 @@ import org.springframework.web.server.ResponseStatusException;
 import com.example.nxtstayz.model.Hotel;
 import com.example.nxtstayz.model.Room;
 import com.example.nxtstayz.service.RoomJpaService;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 
