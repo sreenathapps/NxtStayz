@@ -44,55 +44,41 @@ public class HotelJpaService implements HotelRepository {
 
     @Override
     public Hotel updateHotel(int id, Hotel hotel) {
-        try {
-            Hotel newHotel = hotelJpaRepository.findById(id).get();
-            if (hotel.getHotelName() != null) {
-                newHotel.setHotelName(hotel.getHotelName());
-            }
-            if (hotel.getLocation() != null) {
-                newHotel.setLocation(hotel.getLocation());
-            }
-            if (hotel.getRating() != 0) {
-                newHotel.setRating(hotel.getRating());
-            }
-            if (hotel.getRooms() != null) {
-                List<Integer> roomIds = new ArrayList<>();
-                for (Room room : hotel.getRooms()) {
-                    roomIds.add(room.getRoomId());
-                }
-                List<Room> rooms = roomJpaRepository.findAllById(roomIds);
-                if (roomIds.size() != rooms.size()) {
-                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-                }
-                newHotel.setRooms(rooms);
-
-            }
-            hotelJpaRepository.save(newHotel);
-            return newHotel;
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        Hotel newHotel = hotelJpaRepository.findById(id).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
+        );
+        if (hotel.getHotelName() != null) {
+            newHotel.setHotelName(hotel.getHotelName());
         }
+        if (hotel.getLocation() != null) {
+            newHotel.setLocation(hotel.getLocation());
+        }
+        if (hotel.getRating() != 0) {
+            newHotel.setRating(hotel.getRating());
+        }
+        return hotelJpaRepository.save(newHotel);
     }
 
     @Override
     public void deleteHotel(int hotelId) {
-        try {
-            Hotel hotel = hotelJpaRepository.findById(hotelId).get();
-            List<Integer> ids = new ArrayList<>();
-            for(Room r : hotel.getRooms()) ids.add(r.getRoomId());
-            roomJpaRepository.deleteAllById(ids);
-            hotelJpaRepository.deleteById(hotelId);
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        Hotel hotel = hotelJpaRepository.findById(hotelId).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
+        );
+        List<Room> rooms = roomJpaRepository.findByHotel(hotel);
+        for (Room room : rooms) {
+            room.setHotel(null);
         }
+        roomJpaRepository.saveAll(rooms);
+        hotelJpaRepository.deleteById(hotelId);
+        throw new ResponseStatusException(HttpStatus.NO_CONTENT);
     }
 
     @Override
     public List<Room> getHotelRooms(int hotelId) {
-        List<Room> rooms = hotelJpaRepository.findById(hotelId).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND))
-                .getRooms();
-        return rooms;
+        Hotel hotel = hotelJpaRepository.findById(hotelId).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
+        );
+        return  roomJpaRepository.findByHotel(hotel);
     }
 
 }

@@ -12,9 +12,9 @@ CREATE TABLE Hotel (
 
 CREATE TABLE Room (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  roomNumber VARCHAR(20),
-  type VARCHAR(50),
-  price DECIMAL(10, 2),
+  roomNumber TEXT,
+  type TEXT,
+  price DOUBLE,
   hotelId INT,
   FOREIGN KEY (hotelId) REFERENCES Hotel(id)
 );

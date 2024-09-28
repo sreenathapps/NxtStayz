@@ -27,9 +27,6 @@ public class Hotel {
     private String hotelName;
     private String location;
     private int rating;
-    @OneToMany(mappedBy = "hotel")
-    @JsonIgnoreProperties("hotel")
-    private List<Room> rooms;
 
     public Hotel() {
     }
@@ -39,7 +36,6 @@ public class Hotel {
         this.hotelName = hotelName;
         this.location = location;
         this.rating = rating;
-        this.rooms = rooms;
     }
 
     public int getHotelId() {
@@ -72,14 +68,6 @@ public class Hotel {
 
     public void setRating(int rating) {
         this.rating = rating;
-    }
-
-    public List<Room> getRooms() {
-        return rooms;
-    }
-
-    public void setRooms(List<Room> rooms) {
-        this.rooms = rooms;
     }
 
 }

@@ -30,10 +30,9 @@ public class RoomJpaService implements RoomRepository {
 
     @Override
     public Room getRoomById(int id) {
-        Room room = roomJpaRepository.findById(id).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-
-        return room;
+        return roomJpaRepository.findById(id).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
+        );
     }
 
     @Override
@@ -55,17 +54,19 @@ public class RoomJpaService implements RoomRepository {
     public Room updateRoom(int roomId, Room room) {
         try {
             Room newRoom = roomJpaRepository.findById(roomId).get();
-            if (room.getRoomNumber() != null) {
-                newRoom.setRoomNumber(room.getRoomNumber());
+            if (room.getRoomName() != null) {
+                newRoom.setRoomName(room.getRoomName());
             }
             if (room.getPrice() != 0) {
                 newRoom.setPrice(room.getPrice());
             }
-            if (room.getRoomType() != null) {
-                newRoom.setRoomType(room.getRoomType());
+            if (room.getType() != null) {
+                newRoom.setType(room.getType());
             }
             if (room.getHotel() != null) {
-                newRoom.setHotel(room.getHotel());
+                int hotelId = room.getHotel().getHotelId();
+                Hotel hotel = hotelJpaRepository.findById(hotelId).get();
+                newRoom.setHotel(hotel);
             }
             return roomJpaRepository.save(newRoom);
         } catch (Exception e) {
@@ -80,14 +81,14 @@ public class RoomJpaService implements RoomRepository {
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
+        throw new ResponseStatusException(HttpStatus.NO_CONTENT);
     }
 
     @Override
     public Hotel getRoomHotel(int roomId) {
-        Hotel hotel = roomJpaRepository.findById(roomId).orElseThrow(
+        return roomJpaRepository.findById(roomId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND))
                 .getHotel();
-        return hotel;
     }
 
 }

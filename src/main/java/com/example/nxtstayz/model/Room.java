@@ -1,13 +1,6 @@
 package com.example.nxtstayz.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -22,53 +15,67 @@ public class Room {
     @Column
     (name = "id")
     private int roomId;
+
     @Column(name = "roomnumber")
-    private String roomNumber;
+    private String roomName;
+
     @Column(name = "roomtype")
-    private String roomType;
+    private String type;
+
     private double price;
+
     @ManyToOne
     @JoinColumn(name = "hotelid")
-    @JsonIgnoreProperties("rooms")
     private Hotel hotel;
+
     public Room() {
     }
-    public Room(int roomId, String roomNumber, String roomType, double price, Hotel hotel) {
-        this.roomId = roomId;
-        this.roomNumber = roomNumber;
-        this.roomType = roomType;
-        this.price = price;
-        this.hotel = hotel;
-    }
+
     public int getRoomId() {
         return roomId;
     }
+
     public void setRoomId(int roomId) {
         this.roomId = roomId;
     }
-    public String getRoomNumber() {
-        return roomNumber;
+
+    public String getRoomName() {
+        return roomName;
     }
-    public void setRoomNumber(String roomNumber) {
-        this.roomNumber = roomNumber;
+
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
     }
-    public String getRoomType() {
-        return roomType;
+
+    public String getType() {
+        return type;
     }
-    public void setRoomType(String roomType) {
-        this.roomType = roomType;
+
+    public void setType(String type) {
+        this.type = type;
     }
+
     public double getPrice() {
         return price;
     }
+
     public void setPrice(double price) {
         this.price = price;
     }
+
     public Hotel getHotel() {
         return hotel;
     }
+
     public void setHotel(Hotel hotel) {
         this.hotel = hotel;
     }
-       
+
+    public Room(int roomId, String roomName, String type, double price, Hotel hotel) {
+        this.roomId = roomId;
+        this.roomName = roomName;
+        this.type = type;
+        this.price = price;
+        this.hotel = hotel;
+    }
 }
