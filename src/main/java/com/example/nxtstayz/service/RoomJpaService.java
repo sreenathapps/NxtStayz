@@ -54,14 +54,14 @@ public class RoomJpaService implements RoomRepository {
     public Room updateRoom(int roomId, Room room) {
         try {
             Room newRoom = roomJpaRepository.findById(roomId).get();
-            if (room.getRoomName() != null) {
-                newRoom.setRoomName(room.getRoomName());
+            if (room.getRoomNumber() != null) {
+                newRoom.setRoomNumber(room.getRoomNumber());
             }
             if (room.getPrice() != 0) {
                 newRoom.setPrice(room.getPrice());
             }
-            if (room.getType() != null) {
-                newRoom.setType(room.getType());
+            if (room.getRoomType() != null) {
+                newRoom.setRoomType(room.getRoomType());
             }
             if (room.getHotel() != null) {
                 int hotelId = room.getHotel().getHotelId();

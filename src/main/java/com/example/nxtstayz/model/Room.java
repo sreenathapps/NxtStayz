@@ -12,15 +12,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
-    (name = "id")
+    @Column(name = "id")
     private int roomId;
 
     @Column(name = "roomnumber")
-    private String roomName;
+    private String roomNumber;
 
-    @Column(name = "roomtype")
-    private String type;
+    @Column(name = "type")
+    private String roomType;
 
     private double price;
 
@@ -31,6 +30,14 @@ public class Room {
     public Room() {
     }
 
+    public Room(int roomId, String roomNumber, String roomType, double price, Hotel hotel) {
+        this.roomId = roomId;
+        this.roomNumber = roomNumber;
+        this.roomType = roomType;
+        this.price = price;
+        this.hotel = hotel;
+    }
+
     public int getRoomId() {
         return roomId;
     }
@@ -39,20 +46,20 @@ public class Room {
         this.roomId = roomId;
     }
 
-    public String getRoomName() {
-        return roomName;
+    public String getRoomNumber() {
+        return roomNumber;
     }
 
-    public void setRoomName(String roomName) {
-        this.roomName = roomName;
+    public void setRoomNumber(String roomNumber) {
+        this.roomNumber = roomNumber;
     }
 
-    public String getType() {
-        return type;
+    public String getRoomType() {
+        return roomType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setRoomType(String roomType) {
+        this.roomType = roomType;
     }
 
     public double getPrice() {
@@ -68,14 +75,6 @@ public class Room {
     }
 
     public void setHotel(Hotel hotel) {
-        this.hotel = hotel;
-    }
-
-    public Room(int roomId, String roomName, String type, double price, Hotel hotel) {
-        this.roomId = roomId;
-        this.roomName = roomName;
-        this.type = type;
-        this.price = price;
         this.hotel = hotel;
     }
 }
